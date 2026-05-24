@@ -1,18 +1,20 @@
+import { useMe, useLogout } from "@/hooks";
+
 export function AppTopbar() {
+  const { data: me } = useMe();
+  const signOut = useLogout();
   return (
-    <header className="sticky top-0 z-30 border-b border-border bg-background/80 backdrop-blur">
-      <div className="flex h-14 items-center gap-3 px-6 lg:px-8">
+    <header className="sticky top-0 z-30 w-full min-w-0 border-b border-border bg-background/80 backdrop-blur">
+      <div className="flex h-14 min-w-0 items-center gap-3 px-6 lg:px-8">
         <div className="hidden items-center gap-2 text-[12.5px] text-muted-foreground md:flex">
           <button className="inline-flex items-center gap-1.5 rounded-md border border-border bg-surface px-2.5 py-1 text-foreground transition hover:bg-surface-2">
             <span className="grid h-4 w-4 place-items-center rounded-sm bg-accent/20 font-mono text-[9px] text-accent">N</span>
-            <span>Northwind Industries</span>
+            <span>{me?.organizations[0]?.name ?? "Organization"}</span>
             <svg viewBox="0 0 16 16" className="h-3 w-3 text-muted-foreground" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="m4 6 4 4 4-4"/></svg>
           </button>
-          <span className="text-border">/</span>
-          <span>FY26 · Q2</span>
         </div>
 
-        <div className="ml-2 flex max-w-md flex-1 items-center">
+        <div className="ml-2 flex min-w-0 max-w-md flex-1 items-center">
           <label className="group relative w-full">
             <svg viewBox="0 0 16 16" className="absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" fill="none" stroke="currentColor" strokeWidth="1.5">
               <circle cx="7" cy="7" r="4.5" /><path d="m10.5 10.5 3 3" />
@@ -34,11 +36,18 @@ export function AppTopbar() {
             <svg viewBox="0 0 16 16" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="8" cy="8" r="6"/><path d="M6.5 6.5a1.5 1.5 0 1 1 2.4 1.2c-.6.4-.9.7-.9 1.3M8 11.5h.01"/></svg>
           </button>
           <div className="mx-1 h-5 w-px bg-border" />
-          <button className="inline-flex items-center gap-2 rounded-md py-1 pl-1 pr-2 transition hover:bg-surface" aria-label="Account">
-            <span className="grid h-7 w-7 place-items-center rounded-full bg-gradient-to-br from-accent/40 to-sky/30 text-[11px] font-medium text-foreground ring-1 ring-border">MA</span>
+          <button
+            type="button"
+            onClick={signOut}
+            className="inline-flex items-center gap-2 rounded-md py-1 pl-1 pr-2 transition hover:bg-surface"
+            aria-label="Sign out"
+          >
+            <span className="grid h-7 w-7 place-items-center rounded-full bg-linear-to-br from-accent/40 to-sky/30 text-[11px] font-medium text-foreground ring-1 ring-border">
+              {(me?.name ?? "A").slice(0, 2).toUpperCase()}
+            </span>
             <span className="hidden text-left md:block">
-              <span className="block text-[12px] leading-tight text-foreground">Mei Aoki</span>
-              <span className="block text-[10px] leading-tight text-muted-foreground">Lead analyst</span>
+              <span className="block text-[12px] leading-tight text-foreground">{me?.name ?? "Analyst"}</span>
+              <span className="block text-[10px] leading-tight text-muted-foreground">Sign out</span>
             </span>
           </button>
         </div>

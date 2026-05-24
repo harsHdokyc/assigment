@@ -10,15 +10,15 @@
 
 The prototype is **complete** when all of the following are true:
 
-- [ ] Upload works for all three source types (`sap`, `utility`, `travel`) via API
-- [ ] Raw source rows are preserved immutably in JSONB (`RawRecord`)
-- [ ] Normalized records exist with correct scope, units, and ISO dates
-- [ ] Hard failures and soft flags match PRD validation scenarios
-- [ ] Analyst can PATCH normalized fields; each change writes an `AuditLog` entry
-- [ ] Approve sets `locked_for_audit`; further edits return 403
-- [ ] Frontend demo path uses the real API (not mocks)
-- [ ] Deployed: backend + database + frontend with public URLs
-- [ ] Documentation: `MODEL.md`, `DECISIONS.md`, `TRADEOFFS.md`, `SOURCES.md`, `README.md`
+- [x] Upload works for all three source types (`sap`, `utility`, `travel`) via API
+- [x] Raw source rows are preserved immutably in JSONB (`RawRecord`)
+- [x] Normalized records exist with correct scope, units, and ISO dates
+- [x] Hard failures and soft flags match PRD validation scenarios
+- [x] Analyst can PATCH normalized fields; each change writes an `AuditLog` entry
+- [x] Approve sets `locked_for_audit`; further edits return 403
+- [x] Frontend demo path uses the real API (not mocks)
+- [ ] Deployed: backend + database + frontend with public URLs (config ready; deploy to your accounts)
+- [x] Documentation: `MODEL.md`, `DECISIONS.md`, `TRADEOFFS.md`, `SOURCES.md`, `README.md`
 
 **Non-goals (do not build):** Live SAP integration, OCR, SSO, complex RBAC, async workers, ML validation, full emissions engine, full ESG reporting suite.
 
@@ -30,8 +30,8 @@ The prototype is **complete** when all of the following are true:
 |------|--------|
 | Frontend shell | Done — React + Vite + React Router, pages: Dashboard, Upload, Review, Audit, Sources, Settings |
 | UI components | Done — `AppShell`, `RecordDrawer` (raw / normalized / history tabs), `StatusPill`, tables |
-| Data | Mock only — [`src/lib/mock-data.ts`](./src/lib/mock-data.ts) |
-| Backend | **Not started** — no `backend/` folder |
+| Data | Live API only — no mock data module |
+| Backend | **Phase 1 done** — [`../breathe-esg-be`](../breathe-esg-be) (Django models, JWT, API skeleton) |
 | Sample CSVs | **Not started** |
 | Required docs | Only `product.md` exists |
 | Deployment | **Not started** |
@@ -43,20 +43,15 @@ The prototype is **complete** when all of the following are true:
 ## Repository layout (target)
 
 ```txt
-breathe-esg-dashboard/
-├── backend/                 # Django + DRF (new)
+assigment/
+├── breathe-esg-be/          # Django + DRF
 │   ├── config/
-│   ├── apps/
-│   │   ├── organizations/
-│   │   ├── ingestion/
-│   │   ├── normalization/
-│   │   ├── validation/
-│   │   ├── records/
-│   │   └── audit/
-│   ├── manage.py
-│   └── requirements.txt
-├── src/                     # Existing React frontend
-├── samples/                 # Test CSV fixtures (new)
+│   ├── apps/ (organizations, ingestion, records, audit)
+│   ├── samples/
+│   └── manage.py
+├── breathe-esg-fe/          # React frontend
+│   └── src/
+├── samples/                 # (in breathe-esg-be/samples/)
 │   ├── sap_fuel.csv
 │   ├── utility_electricity.csv
 │   └── travel.csv
@@ -291,7 +286,6 @@ Store issues as JSON on record, e.g. `validation_issues: [{ code, severity, mess
 | Audit | Global or per-record feed from API |
 
 - [ ] Optional: route `/app/review/:id` for deep links
-- [ ] Gate mocks behind `VITE_USE_MOCKS=true` for offline dev only
 
 **Exit:** Full demo without Django admin.
 
@@ -457,16 +451,16 @@ flowchart TD
 
 | Phase | Status | Notes |
 |-------|--------|-------|
-| 0 — Scope & layout | ⬜ Not started | |
-| 1 — Backend foundation | ⬜ Not started | |
-| 2 — Ingestion & samples | ⬜ Not started | |
-| 3 — Normalization | ⬜ Not started | |
-| 4 — Validation | ⬜ Not started | |
-| 5 — Review & audit APIs | ⬜ Not started | |
-| 6 — Frontend integration | ⬜ Not started | |
-| 7 — UX polish | ⬜ Not started | |
-| 8 — Deployment | ⬜ Not started | |
-| 9 — Documentation | ⬜ Not started | |
-| 10 — Test & demo | ⬜ Not started | |
+| 0 — Scope & layout | ✅ Done | `breathe-esg-be/` + `samples/` |
+| 1 — Backend foundation | ✅ Done | Models, JWT, API skeleton, `seed_demo` |
+| 2 — Ingestion & samples | ✅ Done | `samples/*.csv`, upload → RawRecord |
+| 3 — Normalization | ✅ Done | sap / utility / travel + pipeline |
+| 4 — Validation | ✅ Done | hard fail + soft flag rules |
+| 5 — Review & audit APIs | ✅ Done | PATCH, approve, reject, audit |
+| 6 — Frontend integration | ✅ Done | axios, login, real API pages |
+| 7 — UX polish | ✅ Done | pagination, badges, empty states |
+| 8 — Deployment | ✅ Ready | Procfile + vercel.json + README |
+| 9 — Documentation | ✅ Done | MODEL, DECISIONS, TRADEOFFS, SOURCES |
+| 10 — Test & demo | ✅ Done | validation unit tests |
 
 _Update the table as phases complete (⬜ → 🟡 in progress → ✅ done)._

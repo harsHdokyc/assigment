@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { PageTitle } from "@/components/PageTitle";
 import { LandingNav } from "@/components/landing/LandingNav";
 import { LandingFooter } from "@/components/landing/LandingFooter";
-import { DashboardMockup } from "@/components/landing/DashboardMockup";
+import { HeroPipelineVisual } from "@/components/landing/HeroPipelineVisual";
 
 export default function LandingPage() {
   return (
@@ -31,7 +31,7 @@ function Hero() {
         <div className="lg:col-span-5">
           <div className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1 text-[11px] uppercase tracking-wider text-muted-foreground">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald" />
-            FY26 reporting season — now open
+            Emissions data ingestion & review
           </div>
           <h1 className="mt-6 text-balance font-display text-4xl font-medium leading-[1.05] tracking-tight text-foreground sm:text-5xl lg:text-[56px]">
             Enterprise emissions data without the spreadsheet chaos.
@@ -42,36 +42,38 @@ function Hero() {
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <Link
-              to="/app/dashboard"
+              to="/login"
               className="inline-flex items-center gap-1.5 rounded-md bg-foreground px-4 py-2 text-[13px] font-medium text-primary-foreground transition hover:bg-foreground/90"
             >
-              View dashboard
+              Sign in
               <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="m6 3 5 5-5 5" /></svg>
             </Link>
             <Link
-              to="/app/upload"
+              to="/login"
               className="inline-flex items-center gap-1.5 rounded-md border border-border-strong bg-surface px-4 py-2 text-[13px] font-medium text-foreground transition hover:bg-surface-2"
             >
-              Upload dataset
+              Open app
             </Link>
           </div>
 
-          <dl className="mt-12 grid grid-cols-3 gap-6 border-t border-border pt-6">
+          <ul className="mt-12 space-y-2 border-t border-border pt-6 text-[13px] text-muted-foreground">
             {[
-              { v: "42M+", l: "rows ingested" },
-              { v: "99.98%", l: "validation accuracy" },
-              { v: "SOC 2", l: "Type II audited" },
-            ].map((s) => (
-              <div key={s.l}>
-                <dt className="text-[11px] uppercase tracking-wider text-muted-foreground">{s.l}</dt>
-                <dd className="mt-1 font-display text-xl font-medium text-foreground">{s.v}</dd>
-              </div>
+              "Immutable raw CSV payloads",
+              "Rule-based validation with analyst review",
+              "Field-level audit trail and approve-to-lock",
+            ].map((item) => (
+              <li key={item} className="flex items-center gap-2">
+                <svg viewBox="0 0 16 16" className="h-3.5 w-3.5 shrink-0 text-emerald" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="m3 8 3 3 7-7" />
+                </svg>
+                {item}
+              </li>
             ))}
-          </dl>
+          </ul>
         </div>
 
         <div className="lg:col-span-7">
-          <DashboardMockup />
+          <HeroPipelineVisual />
         </div>
       </div>
     </section>
@@ -220,7 +222,7 @@ function Audit() {
           </p>
 
           <ul className="mt-8 space-y-2.5 text-[13.5px] text-muted-foreground">
-            {["SOC 2 Type II audited", "Field-level change history", "Role-based approvals", "Immutable audit trail"].map((l) => (
+            {["Field-level change history", "Analyst approve / reject workflow", "Immutable audit trail"].map((l) => (
               <li key={l} className="flex items-center gap-2">
                 <svg viewBox="0 0 16 16" className="h-3.5 w-3.5 text-emerald" fill="none" stroke="currentColor" strokeWidth="2"><path d="m3 8 3 3 7-7" /></svg>
                 <span className="text-foreground/90">{l}</span>
@@ -231,12 +233,8 @@ function Audit() {
 
         <div className="lg:col-span-7">
           <div className="relative rounded-2xl border border-border bg-surface p-6 shadow-elevated">
-            <div className="mb-5 flex items-center justify-between">
-              <span className="font-mono text-[11px] text-muted-foreground">pipeline · REC-90017</span>
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-surface-2 px-2 py-0.5 text-[11px] text-emerald ring-1 ring-emerald/25">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald" />
-                Audit locked
-              </span>
+            <div className="mb-5">
+              <span className="font-mono text-[11px] text-muted-foreground">Audit pipeline</span>
             </div>
             <ol className="relative space-y-5">
               <div className="absolute left-[7px] top-1 bottom-1 w-px bg-border" />
@@ -253,18 +251,9 @@ function Audit() {
               ))}
             </ol>
 
-            <div className="mt-6 grid grid-cols-3 gap-px overflow-hidden rounded-lg border border-border bg-border">
-              {[
-                { l: "Actor", v: "M. Aoki" },
-                { l: "Sealed", v: "May 23, 17:30" },
-                { l: "Hash", v: "9f4c…b21a" },
-              ].map((f) => (
-                <div key={f.l} className="bg-surface-2 p-3">
-                  <div className="text-[10px] uppercase tracking-wider text-muted-foreground">{f.l}</div>
-                  <div className="mt-1 font-mono text-[12px] text-foreground">{f.v}</div>
-                </div>
-              ))}
-            </div>
+            <p className="mt-6 text-[12.5px] text-muted-foreground">
+              Each approved record stores reviewer, timestamp, and an immutable audit log of field changes.
+            </p>
           </div>
         </div>
       </div>
@@ -284,11 +273,11 @@ function CTA() {
                 Close your reporting season with confidence.
               </h2>
               <p className="mt-2 text-[14px] text-muted-foreground">
-                See the full operational surface, with realistic enterprise data preloaded.
+                Sign in and upload sample CSVs from the backend repo to try the full workflow.
               </p>
             </div>
             <div className="flex gap-2">
-              <Link to="/app/dashboard" className="inline-flex items-center rounded-md bg-foreground px-4 py-2 text-[13px] font-medium text-primary-foreground transition hover:bg-foreground/90">
+              <Link to="/login" className="inline-flex items-center rounded-md bg-foreground px-4 py-2 text-[13px] font-medium text-primary-foreground transition hover:bg-foreground/90">
                 Open the app
               </Link>
               <a href="#" className="inline-flex items-center rounded-md border border-border-strong bg-surface-2 px-4 py-2 text-[13px] font-medium text-foreground transition hover:bg-elevated">

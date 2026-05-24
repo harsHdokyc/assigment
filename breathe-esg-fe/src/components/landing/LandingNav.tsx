@@ -16,13 +16,13 @@ export function LandingNav() {
         </div>
         <div className="flex items-center gap-2">
           <Link
-            to="/app/dashboard"
+            to="/login"
             className="hidden rounded-md px-3 py-1.5 text-[13px] text-muted-foreground transition hover:text-foreground sm:inline-flex"
           >
             Sign in
           </Link>
           <Link
-            to="/app/dashboard"
+            to="/login"
             className="inline-flex items-center rounded-md border border-border-strong bg-surface-2 px-3 py-1.5 text-[13px] text-foreground shadow-soft transition hover:bg-elevated"
           >
             Open app

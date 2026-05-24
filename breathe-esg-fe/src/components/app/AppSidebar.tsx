@@ -1,10 +1,11 @@
 import { Link, useLocation } from "react-router-dom";
 import { Logo } from "@/components/brand/Logo";
+import { useStats } from "@/hooks";
 
 const nav = [
   { label: "Dashboard",   to: "/app/dashboard", icon: IconDash },
   { label: "Upload data", to: "/app/upload",    icon: IconUpload },
-  { label: "Review queue",to: "/app/review",    icon: IconReview, badge: 42 },
+  { label: "Review queue",to: "/app/review",    icon: IconReview, badgeKey: "review" as const },
   { label: "Audit logs",  to: "/app/audit",     icon: IconAudit },
   { label: "Sources",     to: "/app/sources",   icon: IconSource },
   { label: "Settings",    to: "/app/settings",  icon: IconGear },
@@ -12,6 +13,8 @@ const nav = [
 
 export function AppSidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle: () => void }) {
   const { pathname: path } = useLocation();
+  const { data: stats } = useStats();
+  const reviewBadge = (stats?.pending ?? 0) + (stats?.flagged ?? 0);
   return (
     <aside
       className={`sticky top-0 hidden h-screen shrink-0 border-r border-sidebar-border bg-sidebar/80 backdrop-blur transition-[width] duration-300 ease-out lg:flex lg:flex-col ${
@@ -62,9 +65,9 @@ export function AppSidebar({ collapsed, onToggle }: { collapsed: boolean; onTogg
                 {!collapsed && (
                   <>
                     <span className="flex-1 truncate">{item.label}</span>
-                    {"badge" in item && item.badge ? (
+                    {"badgeKey" in item && item.badgeKey === "review" && reviewBadge > 0 ? (
                       <span className="rounded bg-surface-2 px-1.5 py-0.5 font-mono text-[10px] text-foreground/80 ring-1 ring-border">
-                        {item.badge}
+                        {reviewBadge}
                       </span>
                     ) : null}
                   </>
@@ -80,16 +83,9 @@ export function AppSidebar({ collapsed, onToggle }: { collapsed: boolean; onTogg
           <div className="rounded-lg border border-border bg-surface-2 p-3">
             <div className="flex items-center gap-2">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald" />
-              <span className="text-[11px] text-muted-foreground">FY26 Q2 · open</span>
+              <span className="text-[11px] text-muted-foreground">API connected</span>
             </div>
-            <div className="mt-1.5 text-[12.5px] text-foreground">Reporting period</div>
-            <div className="mt-2 h-1 w-full overflow-hidden rounded-full bg-background">
-              <div className="h-full w-[64%] rounded-full bg-accent/70" />
-            </div>
-            <div className="mt-1.5 flex justify-between text-[10.5px] text-muted-foreground">
-              <span>64% complete</span>
-              <span>32d left</span>
-            </div>
+            <div className="mt-1.5 text-[12.5px] text-foreground">Live workspace</div>
           </div>
         ) : (
           <div className="grid h-8 w-full place-items-center rounded-md bg-surface-2">
