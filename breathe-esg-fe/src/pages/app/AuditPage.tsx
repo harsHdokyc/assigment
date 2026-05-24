@@ -29,7 +29,7 @@ export default function AuditPage() {
                   <div>
                     <div className="text-[13px]">
                       <span className="text-muted-foreground">{e.actor}</span> {e.action}{" "}
-                      <span className="font-mono">{e.target.slice(0, 8)}…</span>
+                      <span className="font-mono">{e.target}</span>
                     </div>
                     {e.field && (
                       <div className="mt-1 font-mono text-[11px] text-muted-foreground">

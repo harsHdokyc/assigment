@@ -4,6 +4,7 @@ export type SourceKind = "SAP Export" | "Utility CSV" | "Travel Data";
 /** UI shape for review table + record drawer (mapped from API). */
 export interface ReviewRecord {
   id: string;
+  displayRef: string;
   source: SourceKind;
   scope: "Scope 1" | "Scope 2" | "Scope 3" | string;
   activity: string;
@@ -26,6 +27,8 @@ export interface Paginated<T> {
 
 export interface RecordListItem {
   id: string;
+  display_ref?: string;
+  row_number?: number | null;
   source_type: string;
   source_label: string;
   scope: number | null;
@@ -94,6 +97,7 @@ export interface AuditLogItem {
   actor: string;
   action: string;
   target: string;
+  record_id?: string;
   field?: string;
   before?: string;
   after?: string;

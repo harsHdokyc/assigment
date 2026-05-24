@@ -2,6 +2,7 @@ from rest_framework import serializers
 
 from apps.ingestion.models import SourceType
 
+from .display import record_display_ref
 from .models import NormalizedEmissionRecord, RecordStatus
 
 EDITABLE_FIELDS = {
@@ -25,6 +26,8 @@ class RecordListSerializer(serializers.ModelSerializer):
     source_type = serializers.CharField(source="datasource.source_type", read_only=True)
     source_label = serializers.SerializerMethodField()
     scope_label = serializers.SerializerMethodField()
+    display_ref = serializers.SerializerMethodField()
+    row_number = serializers.IntegerField(source="raw_record.row_number", read_only=True)
     validation_summary = serializers.SerializerMethodField()
     reviewer = serializers.SerializerMethodField()
 
@@ -32,6 +35,8 @@ class RecordListSerializer(serializers.ModelSerializer):
         model = NormalizedEmissionRecord
         fields = (
             "id",
+            "display_ref",
+            "row_number",
             "source_type",
             "source_label",
             "scope",
@@ -50,6 +55,9 @@ class RecordListSerializer(serializers.ModelSerializer):
 
     def get_scope_label(self, obj):
         return f"Scope {obj.scope}" if obj.scope else ""
+
+    def get_display_ref(self, obj):
+        return record_display_ref(obj)
 
     def get_validation_summary(self, obj):
         if not obj.validation_issues:

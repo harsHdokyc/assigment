@@ -4,6 +4,7 @@ from rest_framework.views import APIView
 
 from apps.audit.models import AuditLog
 from apps.organizations.permissions import get_user_organization_ids
+from apps.records.display import record_display_ref
 from apps.records.models import NormalizedEmissionRecord, RecordStatus
 
 from .models import DataSource
@@ -55,7 +56,7 @@ class GlobalAuditView(APIView):
         org_ids = get_user_organization_ids(request.user)
         logs = (
             AuditLog.objects.filter(record__organization_id__in=org_ids)
-            .select_related("changed_by", "record")
+            .select_related("changed_by", "record", "record__datasource", "record__raw_record")
             .order_by("-changed_at")[:100]
         )
         return Response(
@@ -66,7 +67,8 @@ class GlobalAuditView(APIView):
                     if log.changed_by
                     else "system",
                     "action": f"Changed {log.field_name}",
-                    "target": str(log.record_id),
+                    "target": record_display_ref(log.record),
+                    "record_id": str(log.record_id),
                     "field": log.field_name,
                     "before": log.old_value,
                     "after": log.new_value,

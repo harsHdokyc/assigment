@@ -3,6 +3,7 @@ import { PageTitle } from "@/components/PageTitle";
 import { PageHeader } from "@/components/app/PageHeader";
 import { StatusPill } from "@/components/app/StatusPill";
 import { RecordDrawer } from "@/components/app/RecordDrawer";
+import { ReviewTableSkeleton } from "@/components/skeletons/ReviewTableSkeleton";
 import { useRecords } from "@/hooks";
 import { mapListItem } from "@/lib/record-mapper";
 import type { Status } from "@/lib/types";
@@ -27,13 +28,16 @@ export default function ReviewPage() {
     page,
   };
 
-  const { data, isLoading, isError } = useRecords(listFilters);
+  const { data, isLoading, isFetching, isError } = useRecords(listFilters);
+  const showSkeleton = isLoading && !data;
 
   const rows = useMemo(() => {
     const list = (data?.results ?? []).map(mapListItem);
     if (!query) return list;
     const q = query.toLowerCase();
-    return list.filter((r) => `${r.activity} ${r.id} ${r.source}`.toLowerCase().includes(q));
+    return list.filter((r) =>
+      `${r.activity} ${r.displayRef} ${r.source}`.toLowerCase().includes(q)
+    );
   }, [data, query]);
 
   const total = data?.count ?? 0;
@@ -83,10 +87,12 @@ export default function ReviewPage() {
           </label>
         </div>
 
-        <div className="min-w-0 overflow-hidden rounded-xl border border-border bg-surface">
-          {isLoading ? (
-            <div className="px-5 py-16 text-center text-[13px] text-muted-foreground">Loading records…</div>
-          ) : (
+        {showSkeleton ? (
+          <ReviewTableSkeleton />
+        ) : (
+        <div
+          className={`min-w-0 overflow-hidden rounded-xl border border-border bg-surface ${isFetching ? "opacity-80" : ""}`}
+        >
             <div className="min-w-0 overflow-x-auto">
               <table className="w-full min-w-[720px] text-[13px]">
                 <thead>
@@ -117,7 +123,7 @@ export default function ReviewPage() {
                       >
                         <td className="px-5 py-3">
                           <div>{r.source}</div>
-                          <div className="font-mono text-[10.5px] text-muted-foreground">{r.id.slice(0, 8)}…</div>
+                          <div className="font-mono text-[10.5px] text-muted-foreground">{r.displayRef}</div>
                         </td>
                         <td className="px-5 py-3 font-mono text-[11.5px]">{r.scope}</td>
                         <td className="px-5 py-3">{r.activity}</td>
@@ -134,7 +140,6 @@ export default function ReviewPage() {
                 </tbody>
               </table>
             </div>
-          )}
           <div className="flex items-center justify-between border-t border-border px-5 py-3">
             <span className="text-[11.5px] text-muted-foreground">
               {total} records · page {page} of {totalPages}
@@ -159,6 +164,7 @@ export default function ReviewPage() {
             </div>
           </div>
         </div>
+        )}
 
         <RecordDrawer recordId={selectedId} onClose={() => setSelectedId(null)} />
       </div>

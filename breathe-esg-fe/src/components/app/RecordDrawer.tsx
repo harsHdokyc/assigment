@@ -46,7 +46,7 @@ export function RecordDrawer({ recordId, onClose }: { recordId: string | null; o
               ) : (
                 <>
                   <div className="flex items-center gap-2 text-[11px] text-muted-foreground">
-                    <span className="font-mono">{record.id}</span>
+                    <span className="font-mono">{record.displayRef}</span>
                     <span>·</span>
                     <span>{record.source}</span>
                     <span>·</span>

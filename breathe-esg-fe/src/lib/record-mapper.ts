@@ -1,5 +1,6 @@
 import type { RecordDetail, RecordListItem, ReviewRecord, SourceKind } from "./types";
 import { formatRelative } from "./api";
+import { formatDisplayRef } from "./record-ref";
 
 const SOURCE_MAP: Record<string, SourceKind> = {
   sap: "SAP Export",
@@ -8,8 +9,12 @@ const SOURCE_MAP: Record<string, SourceKind> = {
 };
 
 export function mapListItem(r: RecordListItem): ReviewRecord {
+  const displayRef =
+    r.display_ref ?? formatDisplayRef(r.source_type, r.row_number, r.id);
+
   return {
     id: r.id,
+    displayRef,
     source: (r.source_label || SOURCE_MAP[r.source_type]) as SourceKind,
     scope: (r.scope_label || `Scope ${r.scope}`) as ReviewRecord["scope"],
     activity: r.activity_label,

@@ -56,7 +56,7 @@ export default function UploadPage() {
           description="CSV only. Raw rows are preserved; normalization and validation run automatically."
         />
 
-        <div className="flex items-center gap-1 rounded-lg border border-border bg-surface p-1">
+        <div className="flex flex-col gap-1 rounded-lg border border-border bg-surface p-1 sm:flex-row sm:items-stretch">
           {sources.map((s) => (
             <button
               key={s.id}
@@ -129,7 +129,7 @@ export default function UploadPage() {
                       <tbody>
                         {previewRows.map((r) => (
                           <tr key={r.id} className="border-t border-border">
-                            <td className="px-5 py-2 font-mono text-[11px]">{r.id.slice(0, 8)}</td>
+                            <td className="px-5 py-2 font-mono text-[11px]">{r.displayRef}</td>
                             <td className="px-5 py-2">{r.activity}</td>
                             <td className="px-5 py-2 text-right font-mono">
                               {r.value.toLocaleString()} {r.unit}
