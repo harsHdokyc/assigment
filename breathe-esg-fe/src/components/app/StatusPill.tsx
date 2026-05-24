@@ -30,9 +30,9 @@ const map: Record<
   },
   rejected: {
     label: "Rejected",
-    dot: "bg-muted-foreground/70",
-    text: "text-muted-foreground",
-    ring: "ring-border",
+    dot: "bg-sky",
+    text: "text-sky",
+    ring: "ring-sky/25",
   },
   processing: {
     label: "Processing",

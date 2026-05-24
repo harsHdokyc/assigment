@@ -6,6 +6,11 @@ import {
   useRejectRecord,
 } from "@/hooks";
 import { mapDetail } from "@/lib/record-mapper";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { StatusPill } from "./StatusPill";
 
 export function RecordDrawer({ recordId, onClose }: { recordId: string | null; onClose: () => void }) {
@@ -24,26 +29,15 @@ export function RecordDrawer({ recordId, onClose }: { recordId: string | null; o
   useEffect(() => {
     setTab("data");
     setEdits({});
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [recordId, onClose]);
-
-  if (!recordId) return null;
+  }, [recordId]);
 
   return (
-    <>
-      <div
-        aria-hidden
-        onClick={onClose}
-        className="fixed inset-0 z-40 bg-background/60 backdrop-blur-sm"
-      />
-      <aside
-        role="dialog"
-        aria-modal="true"
-        aria-label="Record detail"
-        className="fixed inset-y-0 right-0 z-50 flex h-dvh max-h-dvh w-full max-w-[760px] min-h-0 flex-col border-l border-border bg-surface shadow-elevated"
+    <Dialog open={!!recordId} onOpenChange={(open) => !open && onClose()}>
+      <DialogContent
+        className="flex h-[min(90dvh,900px)] w-[calc(100%-2rem)] max-w-3xl flex-col gap-0 overflow-hidden border-border bg-surface p-0 shadow-elevated sm:rounded-xl [&>button]:hidden"
       >
+        <DialogTitle className="sr-only">Record detail</DialogTitle>
+
         <header className="shrink-0 border-b border-border px-6 py-5">
           <div className="flex items-start justify-between gap-4">
             <div className="min-w-0">
@@ -76,7 +70,7 @@ export function RecordDrawer({ recordId, onClose }: { recordId: string | null; o
             <button
               type="button"
               onClick={onClose}
-              className="grid h-8 w-8 shrink-0 place-items-center rounded-md hover:bg-surface-2"
+              className="grid h-8 w-8 shrink-0 cursor-pointer place-items-center rounded-md hover:bg-surface-2"
               aria-label="Close"
             >
               ×
@@ -90,7 +84,7 @@ export function RecordDrawer({ recordId, onClose }: { recordId: string | null; o
               key={t}
               type="button"
               onClick={() => setTab(t)}
-              className={`px-3 py-2.5 text-[12.5px] capitalize ${
+              className={`cursor-pointer px-3 py-2.5 text-[12.5px] capitalize ${
                 tab === t ? "border-b border-accent text-foreground" : "text-muted-foreground"
               }`}
             >
@@ -128,7 +122,7 @@ export function RecordDrawer({ recordId, onClose }: { recordId: string | null; o
                       save.mutate({ detail, edits }, { onSuccess: () => setEdits({}) })
                     }
                     disabled={save.isPending}
-                    className="mt-4 rounded-md bg-foreground px-3 py-1.5 text-[12px] text-primary-foreground"
+                    className="mt-4 cursor-pointer rounded-md bg-foreground px-3 py-1.5 text-[12px] text-primary-foreground disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     Save changes
                   </button>
@@ -159,11 +153,11 @@ export function RecordDrawer({ recordId, onClose }: { recordId: string | null; o
         </div>
 
         {showActions && (
-          <footer className="shrink-0 border-t border-border bg-surface px-6 py-3.5 shadow-[0_-8px_24px_-12px_oklch(0_0_0/0.5)]">
+          <footer className="shrink-0 border-t border-border bg-surface px-6 py-3.5">
             <div className="flex items-center justify-between gap-3">
               <button
                 type="button"
-                onClick={() => reject.mutate()}
+                onClick={() => reject.mutate(undefined, { onSuccess: onClose })}
                 disabled={reject.isPending || approve.isPending}
                 className="cursor-pointer rounded-md border border-border px-4 py-2 text-[12.5px] transition hover:bg-surface-2 disabled:cursor-not-allowed disabled:opacity-50"
               >
@@ -171,7 +165,7 @@ export function RecordDrawer({ recordId, onClose }: { recordId: string | null; o
               </button>
               <button
                 type="button"
-                onClick={() => approve.mutate()}
+                onClick={() => approve.mutate(undefined, { onSuccess: onClose })}
                 disabled={approve.isPending || reject.isPending}
                 className="cursor-pointer rounded-md bg-emerald/90 px-4 py-2 text-[12.5px] font-medium text-background transition hover:bg-emerald disabled:cursor-not-allowed disabled:opacity-50"
               >
@@ -180,8 +174,8 @@ export function RecordDrawer({ recordId, onClose }: { recordId: string | null; o
             </div>
           </footer>
         )}
-      </aside>
-    </>
+      </DialogContent>
+    </Dialog>
   );
 }
 
