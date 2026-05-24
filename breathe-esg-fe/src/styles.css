@@ -1,0 +1,208 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Breathe ESG — Enterprise dark design system.
+ * All colors in oklch. Restrained palette, soft borders, calm surfaces.
+ */
+
+@theme inline {
+  --font-sans: "Inter", "SF Pro Text", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Inter Tight", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-elevated: var(--elevated);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-emerald: var(--emerald);
+  --color-amber: var(--amber);
+  --color-rose: var(--rose);
+  --color-sky: var(--sky);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+
+  --shadow-elevated: 0 1px 0 0 oklch(1 0 0 / 0.04) inset, 0 1px 2px 0 oklch(0 0 0 / 0.4), 0 8px 24px -12px oklch(0 0 0 / 0.5);
+  --shadow-soft: 0 1px 0 0 oklch(1 0 0 / 0.03) inset, 0 1px 2px 0 oklch(0 0 0 / 0.3);
+}
+
+:root {
+  --radius: 0.625rem;
+
+  /* Dark first — this is the canonical palette */
+  --background: oklch(0.165 0.005 240);          /* #0B0D0F */
+  --surface: oklch(0.195 0.005 240);             /* #111315 */
+  --surface-2: oklch(0.218 0.005 240);           /* #15181B */
+  --elevated: oklch(0.245 0.006 240);
+
+  --foreground: oklch(0.965 0.004 240);          /* #F5F7FA */
+  --muted: oklch(0.235 0.006 240);
+  --muted-foreground: oklch(0.74 0.012 240);     /* #A7B0B8 */
+
+  --card: oklch(0.195 0.005 240);
+  --card-foreground: oklch(0.965 0.004 240);
+  --popover: oklch(0.218 0.005 240);
+  --popover-foreground: oklch(0.965 0.004 240);
+
+  --primary: oklch(0.965 0.004 240);
+  --primary-foreground: oklch(0.165 0.005 240);
+
+  --secondary: oklch(0.235 0.006 240);
+  --secondary-foreground: oklch(0.965 0.004 240);
+
+  --accent: oklch(0.68 0.09 175);                /* muted emerald/teal */
+  --accent-foreground: oklch(0.12 0.02 175);
+
+  --emerald: oklch(0.72 0.11 165);
+  --amber: oklch(0.78 0.11 75);
+  --rose: oklch(0.68 0.14 22);
+  --sky: oklch(0.72 0.09 230);
+
+  --destructive: oklch(0.62 0.18 25);
+  --destructive-foreground: oklch(0.98 0.003 240);
+
+  --border: oklch(1 0 0 / 0.06);
+  --border-strong: oklch(1 0 0 / 0.1);
+  --input: oklch(1 0 0 / 0.08);
+  --ring: oklch(0.68 0.09 175 / 0.5);
+
+  --sidebar: oklch(0.185 0.005 240);
+  --sidebar-foreground: oklch(0.92 0.005 240);
+  --sidebar-border: oklch(1 0 0 / 0.05);
+  --sidebar-accent: oklch(0.255 0.006 240);
+  --sidebar-accent-foreground: oklch(0.98 0.004 240);
+
+  --chart-1: oklch(0.72 0.11 165);
+  --chart-2: oklch(0.72 0.09 230);
+  --chart-3: oklch(0.78 0.11 75);
+  --chart-4: oklch(0.68 0.14 22);
+  --chart-5: oklch(0.74 0.012 240);
+}
+
+/* Light mode kept minimal — product is dark-first */
+.light {
+  --background: oklch(0.99 0.002 240);
+  --surface: oklch(0.97 0.003 240);
+  --surface-2: oklch(0.955 0.004 240);
+  --foreground: oklch(0.16 0.01 240);
+  --muted-foreground: oklch(0.45 0.01 240);
+  --border: oklch(0 0 0 / 0.08);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    color-scheme: dark;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-feature-settings: "cv11", "ss01", "ss03";
+    letter-spacing: -0.005em;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.025em;
+  }
+
+  ::selection {
+    background-color: oklch(0.68 0.09 175 / 0.25);
+  }
+
+  /* Sleek scrollbars */
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: oklch(1 0 0 / 0.06); border-radius: 8px; }
+  ::-webkit-scrollbar-thumb:hover { background: oklch(1 0 0 / 0.12); }
+}
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+  .text-pretty { text-wrap: pretty; }
+
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, oklch(1 0 0 / 0.025) 1px, transparent 1px),
+      linear-gradient(to bottom, oklch(1 0 0 / 0.025) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+
+  .bg-dot {
+    background-image: radial-gradient(oklch(1 0 0 / 0.06) 1px, transparent 1px);
+    background-size: 18px 18px;
+  }
+
+  .mask-fade-b {
+    mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+  }
+  .mask-fade-r {
+    mask-image: linear-gradient(to right, black 70%, transparent 100%);
+  }
+
+  .glass {
+    background: color-mix(in oklab, var(--surface) 70%, transparent);
+    backdrop-filter: blur(12px) saturate(140%);
+    -webkit-backdrop-filter: blur(12px) saturate(140%);
+  }
+
+  .ring-soft {
+    box-shadow: 0 0 0 1px var(--border);
+  }
+
+  .row-flash {
+    animation: row-flash 1.2s ease-out;
+  }
+  @keyframes row-flash {
+    0% { background-color: color-mix(in oklab, var(--accent) 14%, transparent); }
+    100% { background-color: transparent; }
+  }
+
+  .fade-up {
+    animation: fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
