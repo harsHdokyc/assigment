@@ -157,7 +157,7 @@ Approve / Reject         → AuditLog on edits; lock on approve
 
 | File | Deliberate edge cases |
 |------|------------------------|
-| `sap_fuel.csv` | German headers, mixed date formats, L/gal/kg, unknown unit, invalid plant code |
+| `sap_fuel.csv` | Alternate column names, mixed date formats, L/gal/kg, unknown unit, invalid plant code |
 | `utility_electricity.csv` | kWh + MWh, negative row, usage spike, meter IDs |
 | `travel.csv` | Missing airport, unrealistic distance, flight/hotel/taxi mix |
 
@@ -197,7 +197,7 @@ backend/apps/normalization/
 | Utility | billing dates, MWh→kWh, meter→facility lookup | Scope 2 |
 | Travel | airport codes→distance estimate, `transport_mode` | Scope 3 |
 
-- [ ] Header aliases (German + English, case-insensitive)
+- [ ] Header aliases (case-insensitive)
 - [ ] Date parsers: `DD.MM.YYYY`, `YYYY-MM-DD`, `MM/DD/YYYY`
 - [ ] Optional simple `emission_factor` constants (document assumptions)
 
@@ -227,7 +227,6 @@ Store issues as JSON on record, e.g. `validation_issues: [{ code, severity, mess
 | Source | Scenario | Action |
 |--------|----------|--------|
 | SAP | Unknown unit | FAIL |
-| SAP | German header | MAP (normalization) |
 | SAP | Invalid plant | FLAG |
 | Utility | Negative kWh | FAIL |
 | Utility | High usage | FLAG |
@@ -336,7 +335,7 @@ Store issues as JSON on record, e.g. `validation_issues: [{ code, severity, mess
 
 1. Log in as analyst.
 2. Upload `samples/sap_fuel.csv` → verify summary counts.
-3. Open a **flagged** record → raw German vs normalized English visible.
+3. Open a **flagged** record → raw vs normalized values visible.
 4. Edit normalized quantity → audit log shows field diff.
 5. Approve → record locked; edit returns error.
 6. Upload utility file → **failed** row visible for negative consumption.

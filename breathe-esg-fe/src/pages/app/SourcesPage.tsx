@@ -9,7 +9,7 @@ const SOURCE_CATALOG = [
     type: "sap",
     tag: "ERP",
     name: "SAP Export",
-    desc: "Fuel and procurement CSV exports with German headers and mixed units.",
+    desc: "Fuel and procurement CSV exports with alternate column names and mixed units.",
   },
   {
     type: "utility",

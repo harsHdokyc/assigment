@@ -12,7 +12,7 @@ import type { UploadResult } from "@/lib/types";
 import { mapListItem } from "@/lib/record-mapper";
 
 const sources = [
-  { id: "sap", label: "SAP Export", hint: "Fuel · procurement · German headers" },
+  { id: "sap", label: "SAP Export", hint: "Fuel · procurement · mixed units" },
   { id: "utility", label: "Utility CSV", hint: "Electricity · kWh / MWh" },
   { id: "travel", label: "Travel Data", hint: "Flights · hotels · rail" },
 ] as const;

@@ -72,7 +72,7 @@ Convert inconsistent incoming formats into a canonical emissions structure.
 Examples:
 - gallons → liters
 - MWh → kWh
-- German headers → English canonical fields
+- Header mapping → canonical fields
 - airport codes → estimated flight distances
 
 ---
@@ -720,7 +720,6 @@ Sidebar
 | Scenario | Action |
 |---|---|
 | Unknown unit | FAIL |
-| German header detected | MAP |
 | Invalid plant code | FLAG |
 
 ---

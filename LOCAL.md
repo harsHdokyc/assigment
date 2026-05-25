@@ -1,5 +1,7 @@
 # Local development (manual)
 
+**Prefer one command?** See [DOCKER.md](./DOCKER.md) (`docker compose up --build`).
+
 Run **two terminals** — backend first, then frontend.
 
 ## 1. Backend (`breathe-esg-be`)
@@ -9,7 +11,6 @@ cd breathe-esg-be
 python -m venv .venv
 .\.venv\Scripts\activate
 pip install -r requirements.txt
-copy .env.example .env
 python manage.py migrate
 python manage.py seed_demo
 python manage.py runserver
@@ -25,7 +26,6 @@ python manage.py runserver
 ```powershell
 cd breathe-esg-fe
 npm install
-copy .env.example .env
 npm run dev
 ```
 
