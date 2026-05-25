@@ -972,9 +972,3 @@ The prototype succeeds if it demonstrates:
 The goal is not feature quantity.
 
 The goal is demonstrating engineering judgment and system design maturity.
-
-
-
-
-
-Alright, I want you to start the implementation, but make sure you don't write very complex code, you keep it very simple, straightforward, effective, but at the same time like a senior dev working, secure, scalable.
